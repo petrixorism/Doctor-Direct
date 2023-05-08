@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/doctorsFragment"
+        android:icon="@drawable/doctor"
+        android:title="Doctors" />
+    <item
+        android:id="@+id/addDoctorFragment"
+        android:icon="@drawable/add_doctor"
+        android:title="Add doctor" />
+
+    <item
+        android:id="@+id/userAppointmentsFragment"
+        android:icon="@drawable/appoint"
+        android:title="Appointments" />
+
+
+</menu>

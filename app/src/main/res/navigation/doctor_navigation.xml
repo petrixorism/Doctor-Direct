@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/doctor_navigation"
+    app:startDestination="@id/doctorHomeScreen">
+
+    <fragment
+        android:id="@+id/doctorHomeScreen"
+        tools:layout="@layout/fragment_doctor_home"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.doctor.DoctorHomeFragment"
+        android:label="DoctorHomeScreen" />
+</navigation>

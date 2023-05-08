@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/splashFragment">
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_onboardParentFragment"
+            app:destination="@id/onboardParentFragment"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_admin_navigation"
+            app:destination="@id/admin_navigation"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_user_navigation"
+            app:destination="@id/user_navigation"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_doctor_navigation"
+            app:destination="@id/doctor_navigation"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardParentFragment"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.OnboardParentFragment"
+        android:label="OnboardParentFragment"
+        tools:layout="@layout/fragment_onboarding_parent">
+        <action
+            android:id="@+id/action_onboardParentFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <include app:graph="@navigation/admin_navigation" />
+    <include app:graph="@navigation/user_navigation" />
+    <include app:graph="@navigation/doctor_navigation" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_doctor_navigation"
+            app:destination="@id/doctor_navigation"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_user_navigation"
+            app:destination="@id/user_navigation"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_admin_navigation"
+            app:destination="@id/admin_navigation"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_user_navigation"
+            app:destination="@id/user_navigation" />
+    </fragment>
+</navigation>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_navigation"
+    app:startDestination="@id/userHomeFragment">
+
+    <fragment
+        android:id="@+id/userHomeFragment"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.user.UserHomeFragment"
+        android:label="UserHomeScreen"
+        tools:layout="@layout/fragment_user_home">
+        <action
+            android:id="@+id/action_userHomeScreen_to_doctorFragment"
+            app:destination="@id/doctorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appointmentFragment"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.user.AppointmentFragment"
+        android:label="AppointmentFragment"
+        tools:layout="@layout/fragment_make_appointment" >
+        <argument
+            android:name="doctor"
+            app:argType="uz.ravshanbaxranov.doctordirect.data.model.remote.User" />
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <argument
+            android:name="fullname"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/doctorFragment"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.user.DoctorFragment"
+        android:label="DoctorFragment"
+        tools:layout="@layout/fragment_doctor">
+        <action
+            android:id="@+id/action_doctorFragment_to_appointmentFragment"
+            app:destination="@id/appointmentFragment"
+            app:launchSingleTop="false" />
+        <argument
+            android:name="doctor"
+            app:argType="uz.ravshanbaxranov.doctordirect.data.model.remote.User" />
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <argument
+            android:name="fullname"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/userAppointmentsFragment"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.user.UserAppointmentsFragment"
+        android:label="UserAppointmentsFragment"
+        tools:layout="@layout/fragment_user_appointments" />
+</navigation>

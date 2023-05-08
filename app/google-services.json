@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1012189112162",
+    "project_id": "doctor-direct-br",
+    "storage_bucket": "doctor-direct-br.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012189112162:android:2c4aac5f69a654f5346e3b",
+        "android_client_info": {
+          "package_name": "uz.ravshanbaxranov.doctordirect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012189112162-94sqmbmbofqfnd690qe3t327q4sjed4q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaIZpYKbDiFYsdVbAh7HbAYOV1xhakYCc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1012189112162-94sqmbmbofqfnd690qe3t327q4sjed4q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
