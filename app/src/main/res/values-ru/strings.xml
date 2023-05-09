@@ -10,10 +10,11 @@
     <string name="title2">Online consultation</string>
     <string name="subtitle2">You can consult doctors on the platform without leaving home</string>
     <string name="splash_logo">splash logo</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="appointment">Appointment</string>
     <string name="add_doctor">add doctor</string>
     <string name="qr_code">QR Code</string>
-    <string name="find_your_specialist">Find your Specialist</string>
+    <string name="find_your_specialist">Найдите своего специалиста</string>
 </resources>

@@ -10,10 +10,16 @@
         android:icon="@drawable/add_doctor"
         android:title="Add doctor" />
 
+
     <item
-        android:id="@+id/userAppointmentsFragment"
+        android:id="@+id/adminAppointmentsFragment"
         android:icon="@drawable/appoint"
         android:title="Appointments" />
+
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/profile"
+        android:title="Profile" />
 
 
 </menu>

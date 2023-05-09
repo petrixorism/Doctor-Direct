@@ -11,6 +11,8 @@ interface AuthRepository {
 
     suspend fun loginUser(username: String, password: String): Flow<MainResult<String>>
 
-    suspend fun getUserData(userName:String):Flow<MainResult<User?>>
+    suspend fun getUserData(userName: String): Flow<MainResult<User?>>
+
+    suspend fun signOut()
 
 }

@@ -66,4 +66,11 @@
             android:name="appointment"
             app:argType="uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment" />
     </fragment>
+
+
+    <fragment
+        android:id="@+id/profileFragment"
+        tools:layout="@layout/fragment_profile"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>

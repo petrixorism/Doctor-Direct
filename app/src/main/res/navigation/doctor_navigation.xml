@@ -12,8 +12,10 @@
         tools:layout="@layout/fragment_doctor_home">
         <action
             android:id="@+id/action_doctorHomeScreen_to_reviewAppointmentFragment"
-            app:destination="@id/reviewAppointmentFragment" />
+            app:destination="@id/reviewAppointmentFragment"
+            app:launchSingleTop="false" />
     </fragment>
+
     <fragment
         android:id="@+id/reviewAppointmentFragment"
         android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.doctor.ReviewAppointmentFragment"
@@ -23,4 +25,9 @@
             android:name="appointment"
             app:argType="uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment" />
     </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        tools:layout="@layout/fragment_profile"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>

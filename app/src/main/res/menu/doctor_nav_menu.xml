@@ -9,7 +9,7 @@
         android:title="Appointments" />
 
     <item
-        android:id="@+id/doctorProfileFragment"
+        android:id="@+id/profileFragment"
         android:icon="@drawable/profile"
         android:title="Profile" />
 

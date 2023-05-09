@@ -12,7 +12,7 @@
         android:title="Appointments" />
 
     <item
-        android:id="@+id/userProfileFragment"
+        android:id="@+id/profileFragment"
         android:icon="@drawable/profile"
         android:title="Profile" />
 

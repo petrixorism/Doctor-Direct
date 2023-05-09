@@ -3,6 +3,7 @@ package uz.ravshanbaxranov.doctordirect.presentation.screen.doctor
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -68,12 +69,9 @@ class DoctorHomeFragment : Fragment(R.layout.fragment_doctor_home) {
             )
         }
 
+
         binding.scannerFba.setOnClickListener {
-            val navigation = requireActivity().findViewById<FragmentContainerView>(R.id.nav_host_fragment_activity_main)
-
             parentFragment?.findNavController()?.navigate(R.id.action_scannerFragment_self)
-
-//            findNavController().navigate(DoctorHomeFragmentDirections.actionDoctorHomeFragmentToScannerFragment())
         }
 
     }

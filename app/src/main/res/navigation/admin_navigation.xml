@@ -21,12 +21,36 @@
         tools:layout="@layout/fragment_add_doctor" />
     <fragment
         android:id="@+id/adminDoctorFragment"
-        tools:layout="@layout/fragment_admin_doctor"
         android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.admin.AdminDoctorFragment"
-        android:label="AdminDoctorFragment" >
+        android:label="AdminDoctorFragment"
+        tools:layout="@layout/fragment_admin_doctor">
         <argument
             android:name="userData"
             app:argType="uz.ravshanbaxranov.doctordirect.data.model.remote.User" />
     </fragment>
+    <fragment
+        android:id="@+id/appointmentQrFragment"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.AppointmentQrFragment"
+        android:label="AppointmentQrFragment"
+        tools:layout="@layout/fragment_appointment_qr">
+        <argument
+            android:name="appointment"
+            app:argType="uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminAppointmentsFragment"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.admin.AdminAppointmentsFragment"
+        android:label="AdminAppointmentsFragment"
+        tools:layout="@layout/fragment_admin_appointments">
+        <action
+            android:id="@+id/action_adminAppointmentsFragment_to_appointmentQrFragment"
+            app:destination="@id/appointmentQrFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        tools:layout="@layout/fragment_profile"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.ProfileFragment"
+        android:label="ProfileFragment" />
+
 
 </navigation>

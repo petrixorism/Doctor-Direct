@@ -2,6 +2,8 @@ package uz.ravshanbaxranov.doctordirect.presentation.screen.user
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -61,24 +63,47 @@ class UserHomeFragment : Fragment(R.layout.fragment_user_home) {
             }
         }
 
-        adapter.setOnCLickListener { doctor, imageView ->
-            val extra = FragmentNavigatorExtras(imageView to "shared_element")
+        binding.searchEt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-            if (username.isBlank() && fullName.isBlank()) {
-                showToast("User data could not be loaded, please try again later")
             }
 
-            findNavController().navigate(
-                UserHomeFragmentDirections.actionUserHomeScreenToDoctorFragment(
-                    doctor,
-                    username,
-                    fullName
-                ),
-                extra
-            )
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                viewModel.searchDoctors(s.toString().lowercase())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
+
+
+        adapter.setOnCLickListener { doctor, imageView ->
+
+            if (doctor.available){
+                val extra = FragmentNavigatorExtras(imageView to "shared_element")
+                if (username.isBlank() && fullName.isBlank()) {
+                    showToast("User data could not be loaded, please try again later")
+                }
+                findNavController().navigate(
+                    UserHomeFragmentDirections.actionUserHomeScreenToDoctorFragment(
+                        doctor,
+                        username,
+                        fullName
+                    ),
+                    extra
+                )
+            } else {
+                showToast("The doctor is not available yet")
+            }
+
+
         }
 
-
+        binding.scannerFba.setOnClickListener {
+            parentFragment?.findNavController()?.navigate(R.id.action_scannerFragment_self)
+        }
 
 
     }

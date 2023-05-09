@@ -82,9 +82,9 @@
     </fragment>
     <fragment
         android:id="@+id/scannerFragment"
-        tools:layout="@layout/fragment_scanner"
         android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.ScannerFragment"
-        android:label="ScannerFragment">
+        android:label="ScannerFragment"
+        tools:layout="@layout/fragment_scanner">
         <action
             android:id="@+id/action_scannerFragment_to_scannerResultFragment"
             app:destination="@id/scannerResultFragment" />
@@ -92,9 +92,9 @@
     </fragment>
     <fragment
         android:id="@+id/scannerResultFragment"
-        tools:layout="@layout/fragment_scanner_result"
         android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.ScannerResultFragment"
-        android:label="ScannerResultFragment" >
+        android:label="ScannerResultFragment"
+        tools:layout="@layout/fragment_scanner_result">
         <argument
             android:name="appointment"
             app:argType="uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment" />
@@ -103,5 +103,16 @@
     <action
         android:id="@+id/action_scannerFragment_self"
         app:destination="@id/scannerFragment" />
+
+    <action
+        android:id="@+id/action_loginFragment"
+        app:destination="@id/loginFragment"
+        app:popUpTo="@id/mobile_navigation"
+        app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

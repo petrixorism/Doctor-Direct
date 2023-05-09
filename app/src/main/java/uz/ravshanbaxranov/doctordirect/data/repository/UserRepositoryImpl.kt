@@ -50,29 +50,6 @@ class UserRepositoryImpl @Inject constructor(
             emit(MainResult.Message(it.message.toString()))
         }
 
-    override suspend fun getUserData(): Flow<MainResult<User?>> =
-        callbackFlow<MainResult<User?>> {
-
-            trySendBlocking(MainResult.Loading(true))
-
-            withContext(Dispatchers.IO) {
-                dataStore.data.collect {
-                    val username = it[USERNAME] ?: ""
-
-                    val user = fireStore.collection("users").document(username).get().await()
-                        .toObject(User::class.java)
-
-                    trySendBlocking(MainResult.Success(user))
-                    trySendBlocking(MainResult.Loading(false))
-                }
-            }
-
-            awaitClose {}
-        }.flowOn(Dispatchers.IO).catch {
-            emit(MainResult.Loading(false))
-            emit(MainResult.Message(it.message.toString()))
-
-        }
 
     override suspend fun sendAppointment(appointment: Appointment): Flow<MainResult<Unit>> =
         callbackFlow<MainResult<Unit>> {

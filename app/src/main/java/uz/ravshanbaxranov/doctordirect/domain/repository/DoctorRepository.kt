@@ -7,8 +7,6 @@ import uz.ravshanbaxranov.doctordirect.data.model.remote.User
 
 interface DoctorRepository {
 
-    suspend fun getUserData(): Flow<MainResult<User?>>
-
     suspend fun updateAppointment(appointment: Appointment): Flow<MainResult<Unit>>
 
     suspend fun getDoctorAppointments(): Flow<MainResult<List<Appointment>>>

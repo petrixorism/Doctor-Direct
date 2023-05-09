@@ -9,8 +9,6 @@ interface UserRepository {
 
     suspend fun getDoctors(): Flow<MainResult<List<User>>>
 
-    suspend fun getUserData(): Flow<MainResult<User?>>
-
     suspend fun sendAppointment(appointment: Appointment): Flow<MainResult<Unit>>
 
     suspend fun getUserAppointments(): Flow<MainResult<List<Appointment>>>

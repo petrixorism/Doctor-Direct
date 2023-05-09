@@ -13,12 +13,14 @@ import uz.ravshanbaxranov.doctordirect.data.model.MainResult
 import uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment
 import uz.ravshanbaxranov.doctordirect.data.model.remote.User
 import uz.ravshanbaxranov.doctordirect.domain.repository.DoctorRepository
+import uz.ravshanbaxranov.doctordirect.domain.repository.GeneralRepository
 import uz.ravshanbaxranov.doctordirect.domain.repository.UserRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class DoctorHomeViewModel @Inject constructor(
-    private val repository: DoctorRepository
+    private val repository: DoctorRepository,
+    private val generalRepository: GeneralRepository,
 ) :ViewModel() {
 
 
@@ -55,7 +57,7 @@ class DoctorHomeViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            repository.getUserData().collect {
+            generalRepository.getUserData().collect {
                 when (it) {
                     is MainResult.Success -> {
                         _userDataStateFlow.emit(it.data ?: User())

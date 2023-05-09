@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import uz.ravshanbaxranov.doctordirect.data.model.MainResult
+import uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment
 import uz.ravshanbaxranov.doctordirect.data.model.remote.User
 import uz.ravshanbaxranov.doctordirect.domain.repository.AdminRepository
 import javax.inject.Inject
@@ -89,6 +90,33 @@ class AdminRepositoryImpl @Inject constructor(
                 for (i in value!!.documents) {
                     val userData = i.toObject(User::class.java)!!
                     users.add(userData)
+                }
+
+                if (e != null) {
+                    trySendBlocking(MainResult.Message(e.message.toString()))
+                } else {
+                    trySendBlocking(MainResult.Success(users))
+                }
+            }
+            trySendBlocking(MainResult.Loading(false))
+
+            awaitClose {}
+        }.flowOn(Dispatchers.IO).catch {
+            emit(MainResult.Loading(false))
+            emit(MainResult.Message(it.message.toString()))
+        }
+
+    override suspend fun getAllAppointments(): Flow<MainResult<List<Appointment>>> =
+        callbackFlow<MainResult<List<Appointment>>> {
+            trySendBlocking(MainResult.Loading(true))
+
+
+            fireStore.collection("appointments").addSnapshotListener { value, e ->
+                val users = ArrayList<Appointment>()
+
+                for (i in value!!.documents) {
+                    val appointment = i.toObject(Appointment::class.java)!!
+                    users.add(appointment)
                 }
 
                 if (e != null) {
