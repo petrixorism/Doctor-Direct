@@ -51,7 +51,7 @@
         android:id="@+id/loginFragment"
         android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
@@ -75,9 +75,33 @@
         android:id="@+id/registerFragment"
         android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_user_navigation"
             app:destination="@id/user_navigation" />
     </fragment>
+    <fragment
+        android:id="@+id/scannerFragment"
+        tools:layout="@layout/fragment_scanner"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.ScannerFragment"
+        android:label="ScannerFragment">
+        <action
+            android:id="@+id/action_scannerFragment_to_scannerResultFragment"
+            app:destination="@id/scannerResultFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/scannerResultFragment"
+        tools:layout="@layout/fragment_scanner_result"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.ScannerResultFragment"
+        android:label="ScannerResultFragment" >
+        <argument
+            android:name="appointment"
+            app:argType="uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_scannerFragment_self"
+        app:destination="@id/scannerFragment" />
+
 </navigation>

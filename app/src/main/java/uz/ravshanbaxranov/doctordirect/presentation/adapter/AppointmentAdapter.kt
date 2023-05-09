@@ -36,9 +36,8 @@ class AppointmentAdapter(private val role: String = "user") :
 
 
             binding.dateTv.text = item.arrivalDate
-            binding.statusTv.text = item.status
 
-            if (role=="user"){
+            if (role == "user") {
                 binding.doctorNameTv.text = item.doctor
                 binding.specialityTv.text = item.speciality
             } else {
@@ -47,23 +46,24 @@ class AppointmentAdapter(private val role: String = "user") :
             }
 
             when (item.status) {
-                "Upcoming" -> {
+                0 -> {
+                    binding.statusTv.text = "Upcoming"
                     binding.statusTv.setTextColor(Color.parseColor("#FFC107"))
                     binding.statusView.setBackgroundColor(Color.parseColor("#FFC107"))
                 }
 
-                "Rejected" -> {
-                    binding.statusTv.setTextColor(Color.parseColor("#F44336"))
-                    binding.statusView.setBackgroundColor(Color.parseColor("#F44336"))
-                }
-
-                "Accepted" -> {
+                1 -> {
+                    binding.statusTv.text = "Accepted"
                     binding.statusTv.setTextColor(Color.parseColor("#4CAF50"))
                     binding.statusView.setBackgroundColor(Color.parseColor("#4CAF50"))
                 }
+
+                2 -> {
+                    binding.statusTv.text = "Rejected"
+                    binding.statusTv.setTextColor(Color.parseColor("#F44336"))
+                    binding.statusView.setBackgroundColor(Color.parseColor("#F44336"))
+                }
             }
-
-
         }
 
         init {

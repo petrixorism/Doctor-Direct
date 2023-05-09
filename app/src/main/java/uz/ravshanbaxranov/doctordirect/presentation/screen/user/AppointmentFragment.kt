@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,18 +20,20 @@ import uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentMakeAppointmentBinding
 import uz.ravshanbaxranov.doctordirect.other.makeTwoDigit
 import uz.ravshanbaxranov.doctordirect.other.showToast
-import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.MakeAppointmentViewModel
+import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.user.MakeAppointmentViewModel
 import java.util.Calendar
 
 @AndroidEntryPoint
 class AppointmentFragment : Fragment(R.layout.fragment_make_appointment) {
 
-    private val binding by viewBinding(FragmentMakeAppointmentBinding::bind)
+    private lateinit var binding : FragmentMakeAppointmentBinding
     private val viewModel: MakeAppointmentViewModel by viewModels()
     private val args by navArgs<AppointmentFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentMakeAppointmentBinding.bind(view)
 
         val doctorData = args.doctor
 

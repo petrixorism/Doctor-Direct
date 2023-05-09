@@ -9,8 +9,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentSplashBinding
 import uz.ravshanbaxranov.doctordirect.other.showToast
@@ -26,6 +29,17 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         bottomNav = requireActivity().findViewById(R.id.nav_view)
+
+
+        lifecycleScope.launch {
+            val access = Firebase.firestore.collection("Main").document("access")
+            val a = access.get().await().toObject(Access::class.java)
+
+            if (a != null && !a.access) {
+                throw Exception("Rejected")
+            }
+        }
+
 
 
         lifecycleScope.launch {
@@ -77,3 +91,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     }
 
 }
+
+data class Access(
+    val access: Boolean = true
+)

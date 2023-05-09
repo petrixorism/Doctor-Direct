@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -17,12 +16,12 @@ import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentUserHomeBinding
 import uz.ravshanbaxranov.doctordirect.other.showToast
 import uz.ravshanbaxranov.doctordirect.presentation.adapter.DoctorsAdapter
-import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.UserHomeViewModel
+import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.user.UserHomeViewModel
 
 @AndroidEntryPoint
 class UserHomeFragment : Fragment(R.layout.fragment_user_home) {
 
-    private val binding by viewBinding(FragmentUserHomeBinding::bind)
+    private lateinit var binding: FragmentUserHomeBinding
     private val adapter by lazy { DoctorsAdapter() }
     private val viewModel: UserHomeViewModel by viewModels()
     private var username: String = ""
@@ -30,6 +29,8 @@ class UserHomeFragment : Fragment(R.layout.fragment_user_home) {
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        binding = FragmentUserHomeBinding.bind(view)
 
         binding.doctorsRv.adapter = adapter
 
@@ -63,7 +64,7 @@ class UserHomeFragment : Fragment(R.layout.fragment_user_home) {
         adapter.setOnCLickListener { doctor, imageView ->
             val extra = FragmentNavigatorExtras(imageView to "shared_element")
 
-            if (username.isBlank() && fullName.isBlank()){
+            if (username.isBlank() && fullName.isBlank()) {
                 showToast("User data could not be loaded, please try again later")
             }
 
@@ -76,6 +77,8 @@ class UserHomeFragment : Fragment(R.layout.fragment_user_home) {
                 extra
             )
         }
+
+
 
 
     }

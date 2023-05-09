@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -18,7 +22,7 @@ import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentDoctorsBinding
 import uz.ravshanbaxranov.doctordirect.other.showToast
 import uz.ravshanbaxranov.doctordirect.presentation.adapter.DoctorsAdapter
-import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.DoctorsViewModel
+import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.admin.DoctorsViewModel
 
 @AndroidEntryPoint
 class DoctorsFragment : Fragment(R.layout.fragment_doctors) {
@@ -30,7 +34,12 @@ class DoctorsFragment : Fragment(R.layout.fragment_doctors) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding.addDocFba.setOnClickListener {
-            findNavController().navigate(DoctorsFragmentDirections.actionDoctorsFragmentToScannerFragment())
+            showToast("clicked")
+            val navigation = requireActivity().findViewById<FragmentContainerView>(R.id.nav_host_fragment_activity_main)
+
+            navigation.findNavController().navigate(R.id.action_scannerFragment_self)
+
+//            Navigation.findNavController()?.navigate(R.id.action_scannerFragment_self)
         }
 
         binding.doctorsRv.adapter = adapter

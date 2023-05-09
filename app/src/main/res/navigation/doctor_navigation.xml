@@ -3,11 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/doctor_navigation"
-    app:startDestination="@id/doctorHomeScreen">
+    app:startDestination="@id/doctorHomeFragment">
 
     <fragment
-        android:id="@+id/doctorHomeScreen"
-        tools:layout="@layout/fragment_doctor_home"
+        android:id="@+id/doctorHomeFragment"
         android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.doctor.DoctorHomeFragment"
-        android:label="DoctorHomeScreen" />
+        android:label="DoctorHomeFragment"
+        tools:layout="@layout/fragment_doctor_home">
+        <action
+            android:id="@+id/action_doctorHomeScreen_to_reviewAppointmentFragment"
+            app:destination="@id/reviewAppointmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reviewAppointmentFragment"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.doctor.ReviewAppointmentFragment"
+        android:label="ReviewAppointmentFragment"
+        tools:layout="@layout/fragment_review_appointment">
+        <argument
+            android:name="appointment"
+            app:argType="uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment" />
+    </fragment>
 </navigation>

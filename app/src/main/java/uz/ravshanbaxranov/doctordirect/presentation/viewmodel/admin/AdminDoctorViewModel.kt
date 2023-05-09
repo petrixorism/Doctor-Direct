@@ -1,4 +1,4 @@
-package uz.ravshanbaxranov.doctordirect.presentation.viewmodel
+package uz.ravshanbaxranov.doctordirect.presentation.viewmodel.admin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,18 +10,17 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import uz.ravshanbaxranov.doctordirect.data.model.MainResult
-import uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment
-import uz.ravshanbaxranov.doctordirect.domain.repository.UserRepository
+import uz.ravshanbaxranov.doctordirect.domain.repository.AdminRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class UserAppointmentsViewModel @Inject constructor(
-    private val repository: UserRepository
-):ViewModel() {
+class AdminDoctorViewModel @Inject constructor(
+    private val adminRepository: AdminRepository
+) : ViewModel() {
 
 
-    private val _successStateFlow = MutableStateFlow<List<Appointment>>(emptyList())
-    val successFlow: Flow<List<Appointment>> = _successStateFlow.asStateFlow()
+    private val _successChannel = Channel<Unit>()
+    val successFlow: Flow<Unit> = _successChannel.receiveAsFlow()
 
     private val _errorChannel = Channel<String>()
     val errorFlow: Flow<String> = _errorChannel.receiveAsFlow()
@@ -30,13 +29,12 @@ class UserAppointmentsViewModel @Inject constructor(
     val loadingStateFlow: Flow<Boolean> = _loadingState.asStateFlow()
 
 
-    init {
-
+    fun deleteDoctor(userName: String) {
         viewModelScope.launch {
-            repository.getUserAppointments().collect{
+            adminRepository.deleteDoctor(userName).collect {
                 when (it) {
                     is MainResult.Success -> {
-                        _successStateFlow.value = it.data
+                        _successChannel.send(Unit)
                     }
 
                     is MainResult.Loading -> {
@@ -49,7 +47,6 @@ class UserAppointmentsViewModel @Inject constructor(
                 }
             }
         }
-
     }
 
 }

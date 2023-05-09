@@ -19,12 +19,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginVertical="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/accept_btn"
         app:layout_constraintTop_toBottomOf="@+id/back_btn">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/scroll_container"
             android:layout_width="match_parent"
+            android:id="@+id/scroll_container"
             android:layout_height="wrap_content">
 
             <TextView
@@ -49,13 +49,14 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/inter_medium"
                 android:justificationMode="inter_word"
+                android:maxLines="3"
                 android:text="Sultan Khan"
                 android:textColor="@color/grey"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/patient_name_tv"
-                tools:text="@tools:sample/backgrounds/scenic" />
+                tools:text="@tools:sample/lorem/random" />
 
             <TextView
                 android:id="@+id/date_tv"
@@ -86,13 +87,19 @@
                 app:layout_constraintStart_toStartOf="@+id/date_tv"
                 app:layout_constraintTop_toBottomOf="@+id/date_tv" />
 
-            <TextView
+            <EditText
                 android:id="@+id/diagnosis_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="4dp"
+                android:inputType="text"
+                android:background="@drawable/white_corner16"
                 android:fontFamily="@font/inter_regular"
+                android:hint="Diagnosis"
+                android:imeOptions="actionNext"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
                 android:textColor="@color/grey"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -111,13 +118,19 @@
                 app:layout_constraintStart_toStartOf="@+id/aim_tv"
                 app:layout_constraintTop_toBottomOf="@+id/diagnosis_tv" />
 
-            <TextView
+            <EditText
                 android:id="@+id/recipe_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="4dp"
+                android:background="@drawable/white_corner16"
                 android:fontFamily="@font/inter_regular"
+                android:hint="Recipe"
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
                 android:textColor="@color/grey"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -137,13 +150,19 @@
                 app:layout_constraintStart_toStartOf="@+id/aim_tv"
                 app:layout_constraintTop_toBottomOf="@+id/recipe_tv" />
 
-            <TextView
+            <EditText
                 android:id="@+id/conclusion_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="4dp"
+                android:background="@drawable/white_corner16"
                 android:fontFamily="@font/inter_regular"
+                android:hint="Conclusion"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
                 android:textColor="@color/grey"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -170,37 +189,111 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
+                android:background="@drawable/white_corner16"
                 android:fontFamily="@font/inter_regular"
+                android:hint="Date"
+                android:imeOptions="actionNext"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
                 android:textColor="@color/grey"
                 android:textSize="18sp"
-
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/text_recipe"
                 app:layout_constraintTop_toBottomOf="@id/text_arrival" />
 
 
-            <TextView
-                android:id="@+id/doctor_tv"
-                android:layout_width="0dp"
-                android:layout_margin="16dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_semi_bold"
-                android:gravity="end"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:justificationMode="inter_word"
-                android:maxLines="3"
-                android:textSize="18sp"
-                android:text="Sultan Khan"
-                android:textColor="@color/blue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/arrival_tv"
-              />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/reject_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/reject_background"
+        android:fontFamily="@font/inter_medium"
+        android:text="Reject"
+        android:textColor="@color/blue"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/accept_btn"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/accept_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/blue_corner16"
+        android:fontFamily="@font/inter_medium"
+        android:text="Accept"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/reject_btn" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/text_success"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/success" />
+
+    <TextView
+        android:id="@+id/text_success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0"
+        android:fontFamily="@font/inter_semi_bold"
+        tools:text="Success"
+        android:textColor="@color/dark_blue"
+        android:textSize="24sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView" />
+
+    <TextView
+        android:id="@+id/text_subtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:fontFamily="@font/inter_medium"
+        android:gravity="center"
+        android:text="Appointment has been accepted"
+        android:textColor="#8001173C"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_success" />
+
+
+    <ProgressBar
+        android:id="@+id/loading_pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

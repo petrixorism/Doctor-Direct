@@ -11,9 +11,6 @@
         android:label="DoctorsFragment"
         tools:layout="@layout/fragment_doctors">
         <action
-            android:id="@+id/action_doctorsFragment_to_scannerFragment"
-            app:destination="@id/scannerFragment" />
-        <action
             android:id="@+id/action_doctorsFragment_to_adminDoctorFragment"
             app:destination="@id/adminDoctorFragment" />
     </fragment>
@@ -22,20 +19,6 @@
         android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.admin.AddDoctorFragment"
         android:label="AddDoctorFragment"
         tools:layout="@layout/fragment_add_doctor" />
-    <fragment
-        android:id="@+id/scannerFragment"
-        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.ScannerFragment"
-        android:label="ScannerFragment"
-        tools:layout="@layout/fragment_scanner">
-        <action
-            android:id="@+id/action_scannerFragment_to_scannerResultFragment"
-            app:destination="@id/scannerResultFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/scannerResultFragment"
-        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.ScannerResultFragment"
-        android:label="ScannerResultFragment"
-        tools:layout="@layout/fragment_scanner_result" />
     <fragment
         android:id="@+id/adminDoctorFragment"
         tools:layout="@layout/fragment_admin_doctor"

@@ -52,5 +52,18 @@
         android:id="@+id/userAppointmentsFragment"
         android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.user.UserAppointmentsFragment"
         android:label="UserAppointmentsFragment"
-        tools:layout="@layout/fragment_user_appointments" />
+        tools:layout="@layout/fragment_user_appointments" >
+        <action
+            android:id="@+id/action_userAppointmentsFragment_to_appointmentQrFragment"
+            app:destination="@id/appointmentQrFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appointmentQrFragment"
+        tools:layout="@layout/fragment_appointment_qr"
+        android:name="uz.ravshanbaxranov.doctordirect.presentation.screen.AppointmentQrFragment"
+        android:label="AppointmentQrFragment" >
+        <argument
+            android:name="appointment"
+            app:argType="uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment" />
+    </fragment>
 </navigation>

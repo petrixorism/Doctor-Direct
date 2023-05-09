@@ -39,7 +39,7 @@ class DoctorFragment : Fragment(R.layout.fragment_doctor) {
         sharedElementEnterTransition = animation
 
         binding.appointmentBtn.setOnClickListener {
-//            try {
+
                 findNavController().navigate(
                     DoctorFragmentDirections.actionDoctorFragmentToAppointmentFragment(
                         args.doctor,
@@ -47,9 +47,6 @@ class DoctorFragment : Fragment(R.layout.fragment_doctor) {
                         args.fullname
                     )
                 )
-//            } catch (e: Exception) {
-//                showLog(e.message.toString())
-//            }
 
         }
 

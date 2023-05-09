@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentAdminDoctorBinding
 import uz.ravshanbaxranov.doctordirect.other.showToast
-import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.AdminDoctorViewModel
+import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.admin.AdminDoctorViewModel
 
 @AndroidEntryPoint
 class AdminDoctorFragment : Fragment(R.layout.fragment_admin_doctor) {

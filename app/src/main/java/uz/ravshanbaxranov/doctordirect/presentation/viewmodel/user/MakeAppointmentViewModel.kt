@@ -1,4 +1,4 @@
-package uz.ravshanbaxranov.doctordirect.presentation.viewmodel
+package uz.ravshanbaxranov.doctordirect.presentation.viewmodel.user
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

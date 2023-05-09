@@ -28,11 +28,12 @@ class MainActivity : AppCompatActivity() {
 
 
         navHostFragment.navController.addOnDestinationChangedListener { _, destination, _ ->
-            // invisible some fragments later
+
             when (destination.id) {
 
                 R.id.userHomeFragment, R.id.userAppointmentsFragment, R.id.userProfileFragment,
-                R.id.doctorsFragment, R.id.addDoctorFragment -> {
+                R.id.doctorsFragment, R.id.addDoctorFragment,
+                R.id.doctorHomeFragment, R.id.doctorProfileFragment -> {
                     binding.navView.isVisible = true
                 }
 

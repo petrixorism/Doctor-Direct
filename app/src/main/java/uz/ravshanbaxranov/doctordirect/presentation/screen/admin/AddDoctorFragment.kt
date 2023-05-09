@@ -27,9 +27,8 @@ import uz.ravshanbaxranov.doctordirect.other.Constants.REQUEST_CODE_IMAGE_PICK
 import uz.ravshanbaxranov.doctordirect.other.Permission
 import uz.ravshanbaxranov.doctordirect.other.makeTwoDigit
 import uz.ravshanbaxranov.doctordirect.other.showToast
-import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.AddDoctorViewModel
+import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.admin.AddDoctorViewModel
 import java.io.File
-import kotlin.math.min
 
 @AndroidEntryPoint
 class AddDoctorFragment : Fragment(R.layout.fragment_add_doctor) {

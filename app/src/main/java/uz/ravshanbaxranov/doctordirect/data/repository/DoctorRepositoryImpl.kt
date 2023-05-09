@@ -15,41 +15,14 @@ import kotlinx.coroutines.withContext
 import uz.ravshanbaxranov.doctordirect.data.model.MainResult
 import uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment
 import uz.ravshanbaxranov.doctordirect.data.model.remote.User
-import uz.ravshanbaxranov.doctordirect.domain.repository.UserRepository
-import uz.ravshanbaxranov.doctordirect.other.Constants.USERNAME
+import uz.ravshanbaxranov.doctordirect.domain.repository.DoctorRepository
+import uz.ravshanbaxranov.doctordirect.other.Constants
 import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor(
-    private val fireStore: DocumentReference,
-    private val dataStore: DataStore<Preferences>
-) : UserRepository {
-
-    override suspend fun getDoctors(): Flow<MainResult<List<User>>> =
-        callbackFlow<MainResult<List<User>>> {
-            trySendBlocking(MainResult.Loading(true))
-
-            fireStore.collection("users").addSnapshotListener { value, e ->
-                val users = ArrayList<User>()
-                for (i in value!!.documents) {
-                    val userData = i.toObject(User::class.java)!!
-                    if (userData.role == "doctor")
-                        users.add(userData)
-                }
-
-                if (e != null) {
-                    trySendBlocking(MainResult.Message(e.message.toString()))
-                } else {
-                    trySendBlocking(MainResult.Success(users))
-                }
-            }
-            trySendBlocking(MainResult.Loading(false))
-
-            awaitClose {}
-        }.flowOn(Dispatchers.IO).catch {
-            emit(MainResult.Loading(false))
-            emit(MainResult.Message(it.message.toString()))
-        }
-
+class DoctorRepositoryImpl @Inject constructor(
+    private val dataStore: DataStore<Preferences>,
+    private val fireStore: DocumentReference
+) : DoctorRepository {
     override suspend fun getUserData(): Flow<MainResult<User?>> =
         callbackFlow<MainResult<User?>> {
 
@@ -57,7 +30,7 @@ class UserRepositoryImpl @Inject constructor(
 
             withContext(Dispatchers.IO) {
                 dataStore.data.collect {
-                    val username = it[USERNAME] ?: ""
+                    val username = it[Constants.USERNAME] ?: ""
 
                     val user = fireStore.collection("users").document(username).get().await()
                         .toObject(User::class.java)
@@ -74,48 +47,50 @@ class UserRepositoryImpl @Inject constructor(
 
         }
 
-    override suspend fun sendAppointment(appointment: Appointment): Flow<MainResult<Unit>> =
+    override suspend fun updateAppointment(appointment: Appointment): Flow<MainResult<Unit>> =
         callbackFlow<MainResult<Unit>> {
-
             trySendBlocking(MainResult.Loading(true))
-            val id = fireStore.collection("id").document().id
 
-            appointment.id = id
-
-            val collection = fireStore.collection("appointments")
-            dataStore.data.collect { preferences ->
-                val username = preferences[USERNAME] ?: ""
-                appointment.patientUsername = username
-                collection.document(id).set(appointment).addOnSuccessListener {
-                    trySendBlocking(MainResult.Success(Unit))
-                }.addOnFailureListener {
-                    trySendBlocking(MainResult.Message(it.message.toString()))
-                }.addOnCanceledListener {
-                    trySendBlocking(MainResult.Message("Rejected"))
-                }.addOnCompleteListener {
+            if (appointment.status == 2) {
+                fireStore.collection("appointments").document(appointment.id).update(
+                    "status", appointment.status
+                ).addOnSuccessListener {
                     trySendBlocking(MainResult.Loading(false))
+                    trySendBlocking(MainResult.Success(Unit))
+                }
+            } else {
+                fireStore.collection("appointments").document(appointment.id).update(
+                    "status", appointment.status,
+                    "diagnosis", appointment.diagnosis,
+                    "recipe", appointment.recipe,
+                    "conclusion", appointment.conclusion
+                ).addOnSuccessListener {
+                    trySendBlocking(MainResult.Loading(false))
+                    trySendBlocking(MainResult.Success(Unit))
                 }
             }
+
+
 
             awaitClose {}
         }.flowOn(Dispatchers.IO).catch {
             emit(MainResult.Loading(false))
             emit(MainResult.Message(it.message.toString()))
+
         }
 
-    override suspend fun getUserAppointments(): Flow<MainResult<List<Appointment>>> =
+    override suspend fun getDoctorAppointments(): Flow<MainResult<List<Appointment>>> =
         callbackFlow<MainResult<List<Appointment>>> {
             trySendBlocking(MainResult.Loading(true))
 
             dataStore.data.collect { preferences ->
-                val username = preferences[USERNAME] ?: ""
+                val username = preferences[Constants.USERNAME] ?: ""
 
                 fireStore.collection("appointments").addSnapshotListener { value, e ->
                     val users = ArrayList<Appointment>()
-
                     for (i in value!!.documents) {
                         val appointment = i.toObject(Appointment::class.java)!!
-                        if (appointment.patientUsername == username)
+                        if (appointment.doctorUsername == username)
                             users.add(appointment)
                     }
 

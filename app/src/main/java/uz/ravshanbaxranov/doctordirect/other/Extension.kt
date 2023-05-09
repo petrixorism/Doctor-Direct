@@ -16,3 +16,9 @@ fun makeTwoDigit(digit: Int): String {
     return if (digit < 10) "0$digit"
     else "$digit"
 }
+
+fun String.getId(): String? {
+    return if (this.contains("Id")) {
+        this.substring(4, indexOf("\n"))
+    } else null
+}

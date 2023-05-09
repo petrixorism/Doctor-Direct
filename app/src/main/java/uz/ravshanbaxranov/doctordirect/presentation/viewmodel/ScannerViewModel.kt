@@ -10,20 +10,18 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import uz.ravshanbaxranov.doctordirect.data.model.MainResult
-import uz.ravshanbaxranov.doctordirect.data.model.remote.User
-import uz.ravshanbaxranov.doctordirect.domain.repository.UserRepository
+import uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment
+import uz.ravshanbaxranov.doctordirect.domain.repository.GeneralRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class UserHomeViewModel @Inject constructor(
-    private val userRepository: UserRepository
+class ScannerViewModel @Inject constructor(
+    private val generalRepository: GeneralRepository
 ) : ViewModel() {
 
-    private val _doctorsListStateFlow = MutableStateFlow<List<User>>(emptyList())
-    val doctorsListStateFlow = _doctorsListStateFlow.asStateFlow()
 
-    private val _userDataStateFlow = MutableStateFlow(User())
-    val userDataStateFlow = _userDataStateFlow.asStateFlow()
+    private val _successChannel = Channel<Appointment>()
+    val successFlow: Flow<Appointment> = _successChannel.receiveAsFlow()
 
     private val _errorChannel = Channel<String>()
     val errorFlow: Flow<String> = _errorChannel.receiveAsFlow()
@@ -32,12 +30,12 @@ class UserHomeViewModel @Inject constructor(
     val loadingStateFlow: Flow<Boolean> = _loadingState.asStateFlow()
 
 
-    init {
+    fun getAppointment(id: String) {
         viewModelScope.launch {
-            userRepository.getDoctors().collect {
+            generalRepository.getQrResult(id).collect {
                 when (it) {
                     is MainResult.Success -> {
-                        _doctorsListStateFlow.emit(it.data)
+                        _successChannel.send(it.data)
                     }
 
                     is MainResult.Message -> {
@@ -50,25 +48,6 @@ class UserHomeViewModel @Inject constructor(
                 }
             }
         }
-
-        viewModelScope.launch {
-            userRepository.getUserData().collect {
-                when (it) {
-                    is MainResult.Success -> {
-                        _userDataStateFlow.emit(it.data ?: User())
-                    }
-
-                    is MainResult.Message -> {
-                        _errorChannel.send(it.message)
-                    }
-
-                    is MainResult.Loading -> {
-                        _loadingState.value = it.isLoading
-                    }
-                }
-            }
-        }
-
     }
 
 }
