@@ -7,13 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -34,23 +32,23 @@ class DoctorsFragment : Fragment(R.layout.fragment_doctors) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding.addDocFba.setOnClickListener {
-            showToast("clicked")
-            val navigation = requireActivity().findViewById<FragmentContainerView>(R.id.nav_host_fragment_activity_main)
-
+            val navigation =
+                requireActivity().findViewById<FragmentContainerView>(R.id.nav_host_fragment_activity_main)
             navigation.findNavController().navigate(R.id.action_scannerFragment_self)
-
-//            Navigation.findNavController()?.navigate(R.id.action_scannerFragment_self)
         }
 
         binding.doctorsRv.adapter = adapter
         binding.doctorsRv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        lifecycleScope.launch {
-            viewModel.errorFlow.collect {
+        viewModel.errorFlow.onEach {
+            val msg = it.toIntOrNull()
+            if (msg==null){
                 showToast(it)
+            } else{
+                showToast(getString(msg))
             }
-        }
+        }.launchIn(lifecycleScope)
 
         viewModel.doctorsListStateFlow.onEach {
             adapter.submitList(it)

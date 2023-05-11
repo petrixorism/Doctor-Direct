@@ -20,5 +20,8 @@ data class User(
     val availableTime: String = "",
     val available: Boolean = true
 ) : Parcelable {
-    fun getFullName()= "$firstName $lastName"
+    fun getFullName() = "$firstName $lastName"
+
+
+
 }

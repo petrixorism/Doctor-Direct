@@ -11,7 +11,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentDoctorBinding
-import uz.ravshanbaxranov.doctordirect.other.showLog
 
 class DoctorFragment : Fragment(R.layout.fragment_doctor) {
 
@@ -40,13 +39,13 @@ class DoctorFragment : Fragment(R.layout.fragment_doctor) {
 
         binding.appointmentBtn.setOnClickListener {
 
-                findNavController().navigate(
-                    DoctorFragmentDirections.actionDoctorFragmentToAppointmentFragment(
-                        args.doctor,
-                        args.username,
-                        args.fullname
-                    )
+            findNavController().navigate(
+                DoctorFragmentDirections.actionDoctorFragmentToAppointmentFragment(
+                    args.doctor,
+                    args.username,
+                    args.fullname
                 )
+            )
 
         }
 

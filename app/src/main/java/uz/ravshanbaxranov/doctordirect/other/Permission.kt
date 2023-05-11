@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import androidx.fragment.app.Fragment
 import com.vmadalin.easypermissions.EasyPermissions
+import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.other.Constants.PERMISSION_STORAGE_REQUEST_CODE
 
 object Permission {
@@ -19,7 +20,7 @@ object Permission {
     fun requestPermission(fragment: Fragment) {
         EasyPermissions.requestPermissions(
             fragment,
-            "This application cannot work without permission",
+            R.string.permission_info.toString(),
             PERMISSION_STORAGE_REQUEST_CODE,
             Manifest.permission.READ_EXTERNAL_STORAGE
         )

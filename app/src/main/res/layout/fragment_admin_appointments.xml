@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Appointments"
+        android:text="@string/appointments"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,6 +26,20 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         tools:listitem="@layout/item_appointment" />
 
+    <TextView
+        android:id="@+id/empty_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty"
+        android:textSize="24sp"
+        android:visibility="gone"
+        android:alpha="0.5"
+        android:fontFamily="@font/inter_medium"
+        android:textColor="@color/grey"
+        app:layout_constraintBottom_toBottomOf="@id/appointments_rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/appointments_rv" />
 
     <ProgressBar
         android:id="@+id/loading_pb"

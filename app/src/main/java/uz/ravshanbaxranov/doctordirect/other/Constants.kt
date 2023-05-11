@@ -7,6 +7,7 @@ object Constants {
 
     val IS_FIRST_TIME = booleanPreferencesKey("IS_FIRST_TIME")
     val IS_LOGGED_IN = booleanPreferencesKey("IS_LOGGED_IN")
+    val KNOWN_QR = booleanPreferencesKey("KNOWN_QR")
     val LANGUAGE = stringPreferencesKey("ENG")
     val USERNAME = stringPreferencesKey("USERNAME")
 

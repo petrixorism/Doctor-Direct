@@ -115,10 +115,5 @@ class AuthRepositoryImpl @Inject constructor(
 
         }
 
-    override suspend fun signOut() {
-        dataStore.edit {
-            it[Constants.IS_LOGGED_IN] = false
-            it[Constants.USERNAME] = ""
-        }
-    }
+
 }

@@ -2,6 +2,7 @@ package uz.ravshanbaxranov.doctordirect.data.model.remote
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import uz.ravshanbaxranov.doctordirect.R
 
 @Parcelize
 data class Appointment(
@@ -23,18 +24,5 @@ data class Appointment(
     val date: Long = System.currentTimeMillis()
 ) : Parcelable {
 
-    fun getTextDataForQR(): String {
-        val text = StringBuilder()
 
-        text.append("Id: $id\n")
-        text.append("Doctor: $doctor\n")
-        text.append("Patient: $patient\n")
-        text.append("Diagnosis: $diagnosis\n")
-        text.append("Recipe: $recipe\n")
-        text.append("Conclusion: $conclusion\n")
-        text.append("Date: $arrivalDate\n")
-
-
-        return text.toString()
-    }
 }

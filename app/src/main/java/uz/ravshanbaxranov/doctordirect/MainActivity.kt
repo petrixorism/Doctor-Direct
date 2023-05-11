@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         binding.navView.menu.clear()
 
-        binding.navView.inflateMenu(R.menu.admin_nav_menu)
+        binding.navView.inflateMenu(R.menu.user_nav_menu)
         binding.navView.setupWithNavController(navHostFragment.navController)
 
 
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            viewModel.changeLangToRussianFlow.collect {
+            viewModel.setLangFlow.collect {
                 LocaleHelper(this@MainActivity).selectLang(it)
             }
         }

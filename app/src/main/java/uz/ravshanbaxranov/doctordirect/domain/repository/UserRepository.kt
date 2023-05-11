@@ -12,4 +12,5 @@ interface UserRepository {
     suspend fun sendAppointment(appointment: Appointment): Flow<MainResult<Unit>>
 
     suspend fun getUserAppointments(): Flow<MainResult<List<Appointment>>>
+    suspend fun getUserAppointmentsFromUsername(username:String): Flow<MainResult<List<Appointment>>>
 }

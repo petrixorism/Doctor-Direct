@@ -13,6 +13,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentDoctorHomeBinding
@@ -34,11 +36,15 @@ class DoctorHomeFragment : Fragment(R.layout.fragment_doctor_home) {
 
         binding.appointmentRv.adapter = adapter
 
-        lifecycleScope.launch {
-            viewModel.errorFlow.collect {
+        viewModel.errorFlow.onEach {
+            val msg = it.toIntOrNull()
+            if (msg==null){
                 showToast(it)
+            } else{
+                showToast(getString(msg))
             }
-        }
+        }.launchIn(lifecycleScope)
+
         lifecycleScope.launch {
             viewModel.loadingStateFlow.collect {
                 binding.loadingPb.isVisible = it
@@ -47,13 +53,13 @@ class DoctorHomeFragment : Fragment(R.layout.fragment_doctor_home) {
         lifecycleScope.launch {
             viewModel.doctorsListStateFlow.collect {
                 adapter.submitList(it)
+                binding.emptyTv.isVisible = it.isEmpty()
             }
         }
         lifecycleScope.launch {
             viewModel.userDataStateFlow.collect {
                 binding.nameTv.text = "Dr.${it.firstName}"
-//                username = it.username
-//                fullName = it.firstName + " " + it.lastName
+
                 Glide.with(binding.avatarIv)
                     .load(it.avatarUrl)
                     .placeholder(R.drawable.img_1)

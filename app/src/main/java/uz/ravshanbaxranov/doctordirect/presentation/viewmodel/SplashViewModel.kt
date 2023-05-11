@@ -61,7 +61,6 @@ class SplashViewModel @Inject constructor(
                 } else {
                     if (isLoggedIn) {
                         authRepository.getUserData(username).collect { response ->
-                            showLog(response.toString())
                             when (response) {
                                 is MainResult.Success -> {
                                     when (response.data?.role) {

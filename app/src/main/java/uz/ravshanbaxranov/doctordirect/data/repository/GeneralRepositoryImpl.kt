@@ -19,7 +19,6 @@ import uz.ravshanbaxranov.doctordirect.data.model.MainResult
 import uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment
 import uz.ravshanbaxranov.doctordirect.data.model.remote.User
 import uz.ravshanbaxranov.doctordirect.domain.repository.GeneralRepository
-import uz.ravshanbaxranov.doctordirect.other.Constants
 import uz.ravshanbaxranov.doctordirect.other.Constants.USERNAME
 import javax.inject.Inject
 
@@ -35,7 +34,7 @@ class GeneralRepositoryImpl @Inject constructor(
 
             withContext(Dispatchers.IO) {
                 dataStore.data.collect {
-                    val username = it[Constants.USERNAME] ?: ""
+                    val username = it[USERNAME] ?: ""
 
                     val user = fireStore.collection("users").document(username).get().await()
                         .toObject(User::class.java)
@@ -44,6 +43,29 @@ class GeneralRepositoryImpl @Inject constructor(
                     trySendBlocking(MainResult.Loading(false))
                 }
             }
+
+            awaitClose {}
+        }.flowOn(Dispatchers.IO).catch {
+            emit(MainResult.Loading(false))
+            emit(MainResult.Message(it.message.toString()))
+
+        }
+
+    override suspend fun getUserDataFromUsername(username: String): Flow<MainResult<User>> =
+        callbackFlow<MainResult<User>> {
+
+            trySendBlocking(MainResult.Loading(true))
+
+            val user = fireStore.collection("users").document(username.trim()).get().await()
+                .toObject(User::class.java)
+
+            if (user == null) {
+                trySendBlocking(MainResult.Message("Appointment not found"))
+            } else {
+                trySendBlocking(MainResult.Success(user))
+            }
+
+            trySendBlocking(MainResult.Loading(false))
 
             awaitClose {}
         }.flowOn(Dispatchers.IO).catch {

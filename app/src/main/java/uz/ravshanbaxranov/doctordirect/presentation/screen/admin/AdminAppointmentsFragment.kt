@@ -8,6 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentAdminAppointmentsBinding
@@ -29,11 +31,15 @@ class AdminAppointmentsFragment : Fragment(R.layout.fragment_admin_appointments)
 
         binding.appointmentsRv.adapter = adapter
 
-        lifecycleScope.launch {
-            viewModel.errorFlow.collect {
+        viewModel.errorFlow.onEach {
+            val msg = it.toIntOrNull()
+            if (msg==null){
                 showToast(it)
+            } else{
+                showToast(getString(msg))
             }
-        }
+        }.launchIn(lifecycleScope)
+
         lifecycleScope.launch {
             viewModel.loadingStateFlow.collect {
                 binding.loadingPb.isVisible = it
@@ -42,6 +48,7 @@ class AdminAppointmentsFragment : Fragment(R.layout.fragment_admin_appointments)
         lifecycleScope.launch {
             viewModel.appointmentsListStateFlow.collect {
                 adapter.submitList(it)
+                binding.emptyTv.isVisible = it.isEmpty()
             }
         }
 

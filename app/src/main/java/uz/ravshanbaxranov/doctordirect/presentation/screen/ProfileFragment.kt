@@ -18,15 +18,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.vmadalin.easypermissions.EasyPermissions
 import dagger.hilt.android.AndroidEntryPoint
 import id.zelory.compressor.Compressor
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.data.model.remote.User
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentProfileBinding
 import uz.ravshanbaxranov.doctordirect.other.Constants
-import uz.ravshanbaxranov.doctordirect.other.Constants.PERMISSION_STORAGE_REQUEST_CODE
 import uz.ravshanbaxranov.doctordirect.other.Permission
 import uz.ravshanbaxranov.doctordirect.other.makeTwoDigit
 import uz.ravshanbaxranov.doctordirect.other.showToast
@@ -34,7 +35,7 @@ import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.ProfileViewModel
 import java.io.File
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment(R.layout.fragment_profile){
+class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private lateinit var binding: FragmentProfileBinding
     private val viewModel: ProfileViewModel by viewModels()
@@ -58,11 +59,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile){
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.errorFlow.collect {
+        viewModel.errorFlow.onEach {
+            val msg = it.toIntOrNull()
+            if (msg == null) {
                 showToast(it)
+            } else {
+                showToast(getString(msg))
             }
-        }
+        }.launchIn(lifecycleScope)
+
 
         lifecycleScope.launch {
             viewModel.loadingStateFlow.collect {
@@ -73,7 +78,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile){
         lifecycleScope.launch {
             viewModel.updatedFlow.collect {
                 imageUri = null
-                showToast("Your details have been updated")
+                showToast(getString(R.string.your_details_updated))
             }
         }
 
@@ -142,7 +147,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile){
         }
 
         binding.usernameTv.setOnClickListener {
-            showToast("You can not change username")
+            showToast(getString(R.string.you_cant_change_username))
         }
         binding.availableTimeTtv.setOnClickListener {
             showTimeRangeDialog()
@@ -214,7 +219,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile){
                         }
 
                     } else {
-                        showToast("Retry")
+                        showToast(getString(R.string.retry))
                     }
                 } catch (e: Throwable) {
                     showToast(e.message.toString())
@@ -248,8 +253,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile){
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.signOut -> {
-                    viewModel.signOut()
-                    parentFragment?.findNavController()?.navigate(R.id.action_loginFragment)
+
+                        viewModel.signOut()
+
+
+
                     return@setOnMenuItemClickListener true
                 }
 

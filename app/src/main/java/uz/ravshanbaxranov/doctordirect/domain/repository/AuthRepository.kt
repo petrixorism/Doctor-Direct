@@ -13,6 +13,6 @@ interface AuthRepository {
 
     suspend fun getUserData(userName: String): Flow<MainResult<User?>>
 
-    suspend fun signOut()
+
 
 }

@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.PopupMenu
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -41,7 +42,12 @@ class AddDoctorFragment : Fragment(R.layout.fragment_add_doctor) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel.errorFlow.onEach {
-            showToast(it)
+            val msg = it.toIntOrNull()
+            if (msg == null) {
+                showToast(it)
+            } else {
+                showToast(getString(msg))
+            }
         }.launchIn(lifecycleScope)
 
         viewModel.loadingStateFlow.onEach {
@@ -50,7 +56,7 @@ class AddDoctorFragment : Fragment(R.layout.fragment_add_doctor) {
         }.launchIn(lifecycleScope)
 
         viewModel.successFlow.onEach {
-            showToast("Doctor has been added")
+            showToast(getString(R.string.doctor_added))
         }.launchIn(lifecycleScope)
 
         binding.imageIv.setOnClickListener {
@@ -63,6 +69,11 @@ class AddDoctorFragment : Fragment(R.layout.fragment_add_doctor) {
                 startActivityForResult(gallery, REQUEST_CODE_IMAGE_PICK)
             }
         }
+
+        binding.specialityTv.setOnClickListener {
+            chooseSpeciality()
+        }
+
         binding.addBtn.setOnClickListener {
             val user = User(
                 firstName = binding.firstnameTv.text.toString(),
@@ -94,7 +105,8 @@ class AddDoctorFragment : Fragment(R.layout.fragment_add_doctor) {
             requireContext(),
             { _, hourOfDay, minute ->
 
-                Pair("${makeTwoDigit(hourOfDay)}:${makeTwoDigit(minute)}", timeRange.second)
+                timeRange =
+                    Pair("${makeTwoDigit(hourOfDay)}:${makeTwoDigit(minute)}", timeRange.second)
 
                 showEndTimePicker()
             },
@@ -168,6 +180,17 @@ class AddDoctorFragment : Fragment(R.layout.fragment_add_doctor) {
         ) ?: return null
         val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
         return if (cursor.moveToFirst()) cursor.getString(columnIndex) else null
+    }
+
+    private fun chooseSpeciality() {
+        val popup = PopupMenu(requireContext(), binding.specialityTv)
+        popup.inflate(R.menu.doctors_list_menu)
+        popup.show()
+        popup.setOnMenuItemClickListener {
+            binding.specialityTv.text = it.title
+
+            return@setOnMenuItemClickListener false
+        }
     }
 
 

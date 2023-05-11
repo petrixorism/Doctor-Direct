@@ -2,11 +2,11 @@ package uz.ravshanbaxranov.doctordirect.presentation.screen
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
@@ -18,6 +18,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import id.zelory.compressor.Compressor
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.data.model.remote.User
@@ -27,6 +29,9 @@ import uz.ravshanbaxranov.doctordirect.other.Permission
 import uz.ravshanbaxranov.doctordirect.other.showToast
 import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.RegisterViewModel
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment(R.layout.fragment_register) {
@@ -38,11 +43,14 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch {
-            viewModel.errorFlow.collect {
+        viewModel.errorFlow.onEach {
+            val msg = it.toIntOrNull()
+            if (msg == null) {
                 showToast(it)
+            } else {
+                showToast(getString(msg))
             }
-        }
+        }.launchIn(lifecycleScope)
         lifecycleScope.launch {
             viewModel.loadingStateFlow.collect {
                 binding.registerBtn.isEnabled = !it
@@ -57,6 +65,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         }
 
 
+        binding.birthDateTet.setOnClickListener {
+            showDatePickerDialog()
+        }
 
         binding.loginTv.setOnClickListener {
             findNavController().navigateUp()
@@ -101,12 +112,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     if (path != null) {
                         val photoFile = File(path)
 
-//                        lifecycleScope.launch {
-//                            val compressedImageFile = Compressor.compress(requireContext(), photoFile)
                         imageUrl = photoFile.toUri()
-
-                        Log.d("TAGDF", path)
-                        Log.d("TAGDF", imageUrl.toString())
 
                         lifecycleScope.launch {
 
@@ -122,7 +128,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                         }
 
                     } else {
-                        showToast("Retry")
+                        showToast(getString(R.string.retry))
                     }
                 } catch (e: Throwable) {
                     showToast(e.message.toString())
@@ -139,6 +145,33 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         ) ?: return null
         val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
         return if (cursor.moveToFirst()) cursor.getString(columnIndex) else null
+    }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, selectedYear, selectedMonth, selectedDay ->
+                // Handle the date selection
+                val birthday = getFormattedBirthday(selectedYear, selectedMonth, selectedDay)
+                binding.birthDateTet.setText(birthday)
+            },
+            year,
+            month,
+            day
+        )
+        datePickerDialog.show()
+    }
+
+    private fun getFormattedBirthday(year: Int, month: Int, day: Int): String {
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, day)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return dateFormat.format(calendar.time)
     }
 
 

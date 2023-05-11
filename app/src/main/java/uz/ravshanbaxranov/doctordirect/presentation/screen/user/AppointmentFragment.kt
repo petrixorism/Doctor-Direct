@@ -14,6 +14,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment
@@ -43,11 +45,14 @@ class AppointmentFragment : Fragment(R.layout.fragment_make_appointment) {
 
 
 
-        lifecycleScope.launch {
-            viewModel.errorFlow.collect {
+        viewModel.errorFlow.onEach {
+            val msg = it.toIntOrNull()
+            if (msg==null){
                 showToast(it)
+            } else{
+                showToast(getString(msg))
             }
-        }
+        }.launchIn(lifecycleScope)
 
         lifecycleScope.launch {
             viewModel.loadingStateFlow.collect {
@@ -129,7 +134,7 @@ class AppointmentFragment : Fragment(R.layout.fragment_make_appointment) {
         val mMonth = calendar.get(Calendar.MONTH)
         val mDay = calendar.get(Calendar.DAY_OF_MONTH)
         val datePickerDialog = DatePickerDialog(
-            context, { view, year, monthOfYear, dayOfMonth ->
+            context, { _, year, monthOfYear, dayOfMonth ->
                 val date = "$dayOfMonth/${monthOfYear + 1}/$year"
                 openTimePicker(context, date)
             },

@@ -50,10 +50,10 @@ class DoctorsAdapter : ListAdapter<User, DoctorsAdapter.Holder>(ArticleCallback)
             binding.availableTimeTv.text = item.availableTime
             if (item.available) {
                 binding.isAvailableTv.setTextColor(Color.GREEN)
-                binding.isAvailableTv.text = "Available"
+                binding.isAvailableTv.setText(R.string.available)
             } else {
                 binding.isAvailableTv.setTextColor(Color.RED)
-                binding.isAvailableTv.text = "Unavailable"
+                binding.isAvailableTv.setText(R.string.unavailable)
             }
 
 

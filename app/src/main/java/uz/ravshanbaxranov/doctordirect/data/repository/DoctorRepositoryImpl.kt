@@ -10,11 +10,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import uz.ravshanbaxranov.doctordirect.data.model.MainResult
 import uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment
-import uz.ravshanbaxranov.doctordirect.data.model.remote.User
 import uz.ravshanbaxranov.doctordirect.domain.repository.DoctorRepository
 import uz.ravshanbaxranov.doctordirect.other.Constants
 import javax.inject.Inject

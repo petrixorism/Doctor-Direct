@@ -101,7 +101,8 @@
                 android:src="@drawable/baseline_access_time_24"
                 app:layout_constraintBottom_toBottomOf="@+id/availability_tv"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/text_available" />
+                app:layout_constraintTop_toTopOf="@+id/text_available"
+                android:contentDescription="@string/todo" />
 
             <TextView
                 android:id="@+id/text_available"
@@ -110,7 +111,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/inter_medium"
-                android:text="Availability"
+                android:text="@string/availability"
                 android:textColor="@color/dark_blue"
                 app:layout_constraintBottom_toTopOf="@+id/availability_tv"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -124,7 +125,7 @@
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/inter_medium"
-                android:text="Availability"
+                tools:text="Availability"
                 android:textColor="@color/dark_blue"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -144,7 +145,7 @@
         android:layout_margin="16dp"
         android:background="@drawable/blue_corner16"
         android:fontFamily="@font/inter_medium"
-        android:text="Make appointment"
+        android:text="@string/make_appointment"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="16sp"

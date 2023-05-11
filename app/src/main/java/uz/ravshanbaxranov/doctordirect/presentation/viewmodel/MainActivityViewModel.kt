@@ -17,7 +17,7 @@ class MainActivityViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _changeLangToRussian = Channel<String>()
-    val changeLangToRussianFlow = _changeLangToRussian.receiveAsFlow()
+    val setLangFlow = _changeLangToRussian.receiveAsFlow()
 
     init {
         viewModelScope.launch {

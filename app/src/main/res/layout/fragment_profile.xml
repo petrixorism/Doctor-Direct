@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:text="Add Doctor"
+        android:text="@string/profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +59,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/white_corner16"
                 android:fontFamily="@font/inter_regular"
-                android:hint="First Name"
+                android:hint="@string/first_name"
                 android:imeOptions="actionNext"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="12dp"
@@ -78,7 +78,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/white_corner16"
                 android:fontFamily="@font/inter_regular"
-                android:hint="Last Name"
+                android:hint="@string/last_name"
                 android:imeOptions="actionNext"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="12dp"
@@ -97,7 +97,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/white_corner16"
                 android:fontFamily="@font/inter_regular"
-                android:hint="About"
+                android:hint="@string/about"
                 android:imeOptions="actionNext"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="12dp"
@@ -116,7 +116,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/white_corner16"
                 android:fontFamily="@font/inter_regular"
-                android:hint="Speciality"
+                android:hint="@string/speciality"
                 android:imeOptions="actionNext"
                 android:maxLines="1"
                 android:paddingHorizontal="16dp"
@@ -126,7 +126,8 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/about_tv" />
+                app:layout_constraintTop_toBottomOf="@+id/about_tv"
+                 />
 
 
             <TextView
@@ -137,7 +138,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/white_corner16"
                 android:fontFamily="@font/inter_regular"
-                android:hint="Username"
+                android:hint="@string/username"
                 android:imeOptions="actionNext"
                 android:maxLines="1"
                 android:paddingHorizontal="16dp"
@@ -157,7 +158,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/white_corner16"
                 android:fontFamily="@font/inter_regular"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:imeOptions="actionNext"
                 android:maxLines="1"
                 android:paddingHorizontal="16dp"
@@ -176,7 +177,7 @@
                 android:layout_margin="16dp"
                 android:background="@drawable/white_corner16"
                 android:fontFamily="@font/inter_regular"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:imeOptions="actionDone"
                 android:maxLines="1"
                 android:paddingHorizontal="16dp"
@@ -194,7 +195,7 @@
                 android:layout_margin="16dp"
                 android:background="@drawable/white_corner16"
                 android:fontFamily="@font/inter_regular"
-                android:hint="Available time"
+                android:hint="@string/available_time"
                 android:maxLines="1"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="12dp"
@@ -227,20 +228,19 @@
                     android:checked="true"
                     android:fontFamily="@font/inter_medium"
                     android:gravity="center"
-                    android:text="Male"
+                    android:text="@string/male"
                     android:textColor="@drawable/radio_button_text_color" />
 
                 <RadioButton
                     android:id="@+id/female_rb"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-
                     android:layout_weight="1"
                     android:background="@drawable/right_button_selector"
                     android:button="@null"
                     android:fontFamily="@font/inter_medium"
                     android:gravity="center"
-                    android:text="Female"
+                    android:text="@string/female"
                     android:textColor="@drawable/radio_button_text_color" />
 
             </RadioGroup>
@@ -272,6 +272,7 @@
         android:src="@drawable/baseline_save_24"
         app:backgroundTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/todo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

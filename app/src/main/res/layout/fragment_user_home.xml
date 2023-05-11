@@ -22,11 +22,11 @@
         android:id="@+id/name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:fontFamily="@font/inter_medium"
-        android:text="Hello Sultana"
+        android:text="@string/hello"
         android:textColor="@color/dark_blue"
         android:textSize="18sp"
-        android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/avatar_iv" />
 
@@ -35,11 +35,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/inter_semi_bold"
         android:text="@string/find_your_specialist"
         android:textColor="@color/dark_blue"
         android:textSize="24sp"
-        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toStartOf="@+id/avatar_iv"
         app:layout_constraintStart_toStartOf="@+id/name_tv"
         app:layout_constraintTop_toBottomOf="@+id/name_tv" />
@@ -52,7 +52,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/white_corner16"
         android:fontFamily="@font/inter_regular"
-        android:hint="Search..."
+        android:hint="@string/search"
         android:paddingHorizontal="16dp"
         android:paddingVertical="12dp"
         android:textColor="@color/blue"
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/inter_medium"
-        android:text="Doctors list"
+        android:text="@string/doctors_list"
         android:textColor="@color/dark_blue"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/name_tv"
@@ -83,17 +83,34 @@
         app:layout_constraintTop_toBottomOf="@+id/text_doctors"
         tools:listitem="@layout/doctor_item" />
 
+
+    <TextView
+        android:id="@+id/empty_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:fontFamily="@font/inter_medium"
+        android:text="@string/empty"
+        android:textColor="@color/grey"
+        android:textSize="24sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/doctors_rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/doctors_rv" />
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/scanner_fba"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:id="@+id/scanner_fba"
-        app:backgroundTint="@color/blue"
-        android:src="@drawable/baseline_qr_code_scanner_24"
+        android:src="@drawable/baseline_qr_code_24"
+        android:tint="@color/white"
         android:transitionName="shared_element"
+        app:backgroundTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
     <ProgressBar
         android:id="@+id/loading_pb"

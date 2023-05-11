@@ -15,6 +15,7 @@ import com.google.zxing.WriterException
 import com.google.zxing.qrcode.QRCodeWriter
 import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentAppointmentQrBinding
+import uz.ravshanbaxranov.doctordirect.other.getTextDataForQR
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -32,7 +33,7 @@ class AppointmentQrFragment : Fragment(R.layout.fragment_appointment_qr) {
         try {
             if (appointment.status == 1) {
                 binding.qrCodeIv.isVisible = true
-                val bitmap = encodeAsBitmap(args.appointment.getTextDataForQR())
+                val bitmap = encodeAsBitmap(getTextDataForQR(args.appointment))
                 binding.qrCodeIv.setImageBitmap(bitmap)
             } else {
                 binding.diagnosisTv.isVisible = false
@@ -52,7 +53,7 @@ class AppointmentQrFragment : Fragment(R.layout.fragment_appointment_qr) {
 
         binding.patientNameTv.text = appointment.patient
         binding.aimTv.text = appointment.aim
-        binding.dateTv.text = "Sent in $time"
+        binding.dateTv.append(time)
         binding.arrivalTv.text = appointment.arrivalDate
         binding.diagnosisTv.text = appointment.diagnosis
         binding.recipeTv.text = appointment.recipe

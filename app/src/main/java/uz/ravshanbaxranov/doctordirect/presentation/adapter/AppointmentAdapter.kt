@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment
 import uz.ravshanbaxranov.doctordirect.databinding.ItemAppointmentBinding
 
@@ -47,19 +48,19 @@ class AppointmentAdapter(private val role: String = "user") :
 
             when (item.status) {
                 0 -> {
-                    binding.statusTv.text = "Upcoming"
+                    binding.statusTv.setText(R.string.upcoming)
                     binding.statusTv.setTextColor(Color.parseColor("#FFC107"))
                     binding.statusView.setBackgroundColor(Color.parseColor("#FFC107"))
                 }
 
                 1 -> {
-                    binding.statusTv.text = "Accepted"
+                    binding.statusTv.setText(R.string.accepted)
                     binding.statusTv.setTextColor(Color.parseColor("#4CAF50"))
                     binding.statusView.setBackgroundColor(Color.parseColor("#4CAF50"))
                 }
 
                 2 -> {
-                    binding.statusTv.text = "Rejected"
+                    binding.statusTv.setText(R.string.rejected)
                     binding.statusTv.setTextColor(Color.parseColor("#F44336"))
                     binding.statusView.setBackgroundColor(Color.parseColor("#F44336"))
                 }

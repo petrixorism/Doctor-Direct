@@ -35,28 +35,31 @@ class AdminRepositoryImpl @Inject constructor(
             val idImage = fireStore.collection("id").document().id
             val userId = fireStore.collection("id").document().id
 
+            val oldUser = fireStore.collection("users").document(userData.username).get().await()
 
-            val imageRef = cloudStorage.child("images/$idImage")
-            imageRef.putFile(fileUri).await()
-            imageRef.downloadUrl.addOnSuccessListener { uri ->
-                userData.uid = userId
-                userData.avatarUrl = uri.toString()
+            if (oldUser == null) {
 
-                val bookRef = fireStore.collection("users")
-                bookRef.document(userData.username).set(userData).addOnSuccessListener {
-                    trySendBlocking(MainResult.Success(Unit))
+                val imageRef = cloudStorage.child("images/$idImage")
+                imageRef.putFile(fileUri).await()
+                imageRef.downloadUrl.addOnSuccessListener { uri ->
+                    userData.uid = userId
+                    userData.avatarUrl = uri.toString()
+
+                    val bookRef = fireStore.collection("users")
+                    bookRef.document(userData.username).set(userData).addOnSuccessListener {
+                        trySendBlocking(MainResult.Success(Unit))
+                    }.addOnFailureListener {
+                        trySendBlocking(MainResult.Message(it.message.toString()))
+                    }.addOnCanceledListener {
+                        trySendBlocking(MainResult.Message("Rejected"))
+                    }
+
                 }.addOnFailureListener {
                     trySendBlocking(MainResult.Message(it.message.toString()))
                 }.addOnCanceledListener {
                     trySendBlocking(MainResult.Message("Rejected"))
                 }
-
-            }.addOnFailureListener {
-                trySendBlocking(MainResult.Message(it.message.toString()))
-            }.addOnCanceledListener {
-                trySendBlocking(MainResult.Message("Rejected"))
             }
-
             trySendBlocking(MainResult.Loading(false))
 
             awaitClose {}
@@ -122,7 +125,9 @@ class AdminRepositoryImpl @Inject constructor(
                 if (e != null) {
                     trySendBlocking(MainResult.Message(e.message.toString()))
                 } else {
-                    trySendBlocking(MainResult.Success(users))
+                    trySendBlocking(MainResult.Success(users.sortedByDescending {
+                        it.date
+                    }))
                 }
             }
             trySendBlocking(MainResult.Loading(false))

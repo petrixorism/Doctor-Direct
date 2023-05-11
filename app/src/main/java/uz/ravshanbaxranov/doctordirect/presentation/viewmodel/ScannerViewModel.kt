@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import uz.ravshanbaxranov.doctordirect.data.model.MainResult
 import uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment
+import uz.ravshanbaxranov.doctordirect.data.model.remote.User
 import uz.ravshanbaxranov.doctordirect.domain.repository.GeneralRepository
 import javax.inject.Inject
 
@@ -20,8 +21,11 @@ class ScannerViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private val _successChannel = Channel<Appointment>()
-    val successFlow: Flow<Appointment> = _successChannel.receiveAsFlow()
+    private val _appointmentChannel = Channel<Appointment>()
+    val appointmentFlow: Flow<Appointment> = _appointmentChannel.receiveAsFlow()
+
+    private val _userChannel = Channel<User>()
+    val userFlow: Flow<User> = _userChannel.receiveAsFlow()
 
     private val _errorChannel = Channel<String>()
     val errorFlow: Flow<String> = _errorChannel.receiveAsFlow()
@@ -35,7 +39,27 @@ class ScannerViewModel @Inject constructor(
             generalRepository.getQrResult(id).collect {
                 when (it) {
                     is MainResult.Success -> {
-                        _successChannel.send(it.data)
+                        _appointmentChannel.send(it.data)
+                    }
+
+                    is MainResult.Message -> {
+                        _errorChannel.send(it.message)
+                    }
+
+                    is MainResult.Loading -> {
+                        _loadingState.value = it.isLoading
+                    }
+                }
+            }
+        }
+    }
+
+    fun getUser(username:String){
+        viewModelScope.launch {
+            generalRepository.getUserDataFromUsername(username).collect {
+                when (it) {
+                    is MainResult.Success -> {
+                        _userChannel.send(it.data)
                     }
 
                     is MainResult.Message -> {

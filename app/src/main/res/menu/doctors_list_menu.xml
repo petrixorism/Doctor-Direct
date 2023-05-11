@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item android:id="@+id/general" android:title="@string/general_doctor"/>
+  <item android:id="@+id/neurologist" android:title="@string/neurologist"/>
+  <item android:id="@+id/dentist" android:title="@string/dentist"/>
+  <item android:id="@+id/therapist" android:title="@string/therapist"/>
+  <item android:id="@+id/surgeon" android:title="@string/surgeon"/>
+  <item android:id="@+id/orthopedic" android:title="@string/orthopedic_doctor"/>
+  <item android:id="@+id/endocrinologist" android:title="@string/endocrinologist"/>
+  <item android:id="@+id/gynecologist" android:title="@string/gynecologist"/>
+
+
+
+
+</menu>
+
+

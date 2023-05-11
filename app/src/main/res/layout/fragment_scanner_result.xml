@@ -49,7 +49,6 @@
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/inter_medium"
                 android:justificationMode="inter_word"
-                android:text="Sultan Khan"
                 android:textColor="@color/grey"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -67,12 +66,11 @@
                 android:gravity="end"
                 android:justificationMode="inter_word"
                 android:maxLines="3"
-                android:text="Sultan Khan"
                 android:textColor="@color/grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/aim_tv"
-                tools:text="20.20.20" />
+                android:text="@string/sent_in" />
 
             <TextView
                 android:id="@+id/text_time"
@@ -80,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/inter_semi_bold"
-                android:text="Diagnosis"
+                android:text="@string/diagnosis"
                 android:textColor="@color/dark_blue"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/date_tv"
@@ -105,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/inter_semi_bold"
-                android:text="Recipe"
+                android:text="@string/recipe"
                 android:textColor="@color/dark_blue"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/aim_tv"
@@ -131,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/inter_semi_bold"
-                android:text="Conclusion"
+                android:text="@string/conclusion"
                 android:textColor="@color/dark_blue"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/aim_tv"
@@ -157,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/inter_semi_bold"
-                android:text="Arrival date"
+                android:text="@string/arrival_time"
                 android:textColor="@color/dark_blue"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/aim_tv"
@@ -182,20 +180,18 @@
             <TextView
                 android:id="@+id/doctor_tv"
                 android:layout_width="0dp"
-                android:layout_margin="16dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="16dp"
                 android:fontFamily="@font/inter_semi_bold"
                 android:gravity="end"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:justificationMode="inter_word"
                 android:maxLines="3"
-                android:textSize="18sp"
-                android:text="Sultan Khan"
                 android:textColor="@color/blue"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/arrival_tv"
-              />
+                app:layout_constraintTop_toBottomOf="@+id/arrival_tv" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

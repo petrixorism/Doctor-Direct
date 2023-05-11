@@ -12,6 +12,8 @@ interface GeneralRepository {
 
     suspend fun getUserData(): Flow<MainResult<User?>>
 
+    suspend fun getUserDataFromUsername(username: String): Flow<MainResult<User>>
+
     suspend fun updateProfile(user: User, fileUri: Uri?): Flow<MainResult<Unit>>
 
     suspend fun changeDoctorAvailability(checked: Boolean)

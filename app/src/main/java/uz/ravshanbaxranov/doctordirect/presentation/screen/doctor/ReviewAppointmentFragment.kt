@@ -14,6 +14,8 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentReviewAppointmentBinding
@@ -40,17 +42,20 @@ class ReviewAppointmentFragment : Fragment(R.layout.fragment_review_appointment)
 
         binding.patientNameTv.text = appointment.patient
         binding.aimTv.text = appointment.aim
-        binding.dateTv.text = "Sent in $time"
+        binding.dateTv.append(time)
         binding.arrivalTv.text = appointment.arrivalDate
         binding.diagnosisTv.setText(appointment.diagnosis)
         binding.recipeTv.setText(appointment.recipe)
         binding.conclusionTv.setText(appointment.conclusion)
 
-        lifecycleScope.launch {
-            viewModel.errorFlow.collect {
+        viewModel.errorFlow.onEach {
+            val msg = it.toIntOrNull()
+            if (msg==null){
                 showToast(it)
+            } else{
+                showToast(getString(msg))
             }
-        }
+        }.launchIn(lifecycleScope)
 
         lifecycleScope.launch {
             viewModel.loadingStateFlow.collect {
@@ -130,14 +135,14 @@ class ReviewAppointmentFragment : Fragment(R.layout.fragment_review_appointment)
 
     private fun onRejected() {
         binding.lottieAnimationView.setAnimation(R.raw.cancel_event)
-        binding.textSuccess.text = "Rejected"
-        binding.textSubtext.text = "Appointment has been rejected"
+        binding.textSuccess.setText(R.string.rejected)
+        binding.textSubtext.setText(R.string.appointment_has_been_rejected)
     }
 
     private fun onAccepted() {
         binding.lottieAnimationView.setAnimation(R.raw.success)
-        binding.textSuccess.text = "Accepted"
-        binding.textSubtext.text = "Appointment has been accepted"
+        binding.textSuccess.setText(R.string.accepted)
+        binding.textSubtext.setText(R.string.appointment_has_been_accepted)
     }
 
 }

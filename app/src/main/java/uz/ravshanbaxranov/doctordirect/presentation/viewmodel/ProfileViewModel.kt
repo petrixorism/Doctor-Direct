@@ -18,6 +18,7 @@ import uz.ravshanbaxranov.doctordirect.data.model.MainResult
 import uz.ravshanbaxranov.doctordirect.data.model.remote.User
 import uz.ravshanbaxranov.doctordirect.domain.repository.AuthRepository
 import uz.ravshanbaxranov.doctordirect.domain.repository.GeneralRepository
+import uz.ravshanbaxranov.doctordirect.other.Constants
 import uz.ravshanbaxranov.doctordirect.other.Constants.LANGUAGE
 import uz.ravshanbaxranov.doctordirect.other.showLog
 import javax.inject.Inject
@@ -39,6 +40,7 @@ class ProfileViewModel @Inject constructor(
     private val _errorChannel = Channel<String>()
     val errorFlow: Flow<String> = _errorChannel.receiveAsFlow()
 
+
     private val _loadingState = MutableStateFlow(false)
     val loadingStateFlow: Flow<Boolean> = _loadingState.asStateFlow()
 
@@ -48,7 +50,11 @@ class ProfileViewModel @Inject constructor(
 
     fun signOut() {
         viewModelScope.launch {
-            authRepository.signOut()
+            dataStore.edit {
+                it[Constants.IS_LOGGED_IN] = false
+                it[Constants.USERNAME] = ""
+                _signOutChannel.send(Unit)
+            }
         }
     }
 

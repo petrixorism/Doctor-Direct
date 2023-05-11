@@ -10,8 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import uz.ravshanbaxranov.doctordirect.data.model.MainResult
 import uz.ravshanbaxranov.doctordirect.data.model.remote.Appointment
 import uz.ravshanbaxranov.doctordirect.data.model.remote.User
@@ -109,4 +107,31 @@ class UserRepositoryImpl @Inject constructor(
             emit(MainResult.Loading(false))
             emit(MainResult.Message(it.message.toString()))
         }
+
+    override suspend fun getUserAppointmentsFromUsername(username:String): Flow<MainResult<List<Appointment>>> =callbackFlow<MainResult<List<Appointment>>> {
+        trySendBlocking(MainResult.Loading(true))
+
+
+            fireStore.collection("appointments").addSnapshotListener { value, e ->
+                val users = ArrayList<Appointment>()
+
+                for (i in value!!.documents) {
+                    val appointment = i.toObject(Appointment::class.java)!!
+                    if (appointment.patientUsername == username)
+                        users.add(appointment)
+                }
+
+                if (e != null) {
+                    trySendBlocking(MainResult.Message(e.message.toString()))
+                } else {
+                    trySendBlocking(MainResult.Success(users))
+                }
+            }
+            trySendBlocking(MainResult.Loading(false))
+
+        awaitClose {}
+    }.flowOn(Dispatchers.IO).catch {
+        emit(MainResult.Loading(false))
+        emit(MainResult.Message(it.message.toString()))
+    }
 }

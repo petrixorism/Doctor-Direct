@@ -37,11 +37,15 @@ class AdminDoctorFragment : Fragment(R.layout.fragment_admin_doctor) {
         sharedElementEnterTransition = animation
 
         viewModel.errorFlow.onEach {
-            showToast(it)
+            val msg = it.toIntOrNull()
+            if (msg==null){
+                showToast(it)
+            } else{
+                showToast(getString(msg))
+            }
         }.launchIn(lifecycleScope)
-
         viewModel.successFlow.onEach {
-            showToast("Doctor has been deleted")
+            showToast("${getString(R.string.doctor_deleted)}")
             findNavController().navigateUp()
         }.launchIn(lifecycleScope)
 

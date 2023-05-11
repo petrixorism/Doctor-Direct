@@ -26,11 +26,12 @@ class ScannerResultFragment : Fragment(R.layout.fragment_scanner_result) {
 
         binding.patientNameTv.text = appointment.patient
         binding.aimTv.text = appointment.aim
-        binding.dateTv.text = "Sent in $time"
+        binding.dateTv.append(time)
         binding.arrivalTv.text = appointment.arrivalDate
         binding.diagnosisTv.text = appointment.diagnosis
         binding.recipeTv.text = appointment.recipe
         binding.conclusionTv.text = appointment.conclusion
+        binding.doctorTv.text = appointment.doctor
 
         binding.backBtn.setOnClickListener {
             findNavController().navigateUp()

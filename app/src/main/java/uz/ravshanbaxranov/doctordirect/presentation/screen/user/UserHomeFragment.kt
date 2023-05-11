@@ -13,8 +13,11 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import uz.ravshanbaxranov.doctordirect.R
+import uz.ravshanbaxranov.doctordirect.data.model.remote.User
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentUserHomeBinding
 import uz.ravshanbaxranov.doctordirect.other.showToast
 import uz.ravshanbaxranov.doctordirect.presentation.adapter.DoctorsAdapter
@@ -28,19 +31,24 @@ class UserHomeFragment : Fragment(R.layout.fragment_user_home) {
     private val viewModel: UserHomeViewModel by viewModels()
     private var username: String = ""
     private var fullName: String = ""
+    private var user: User? = null
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding = FragmentUserHomeBinding.bind(view)
 
         binding.doctorsRv.adapter = adapter
 
-        lifecycleScope.launch {
-            viewModel.errorFlow.collect {
+        viewModel.errorFlow.onEach {
+            val msg = it.toIntOrNull()
+            if (msg == null) {
                 showToast(it)
+            } else {
+                showToast(getString(msg))
             }
-        }
+        }.launchIn(lifecycleScope)
+
         lifecycleScope.launch {
             viewModel.loadingStateFlow.collect {
                 binding.loadingPb.isVisible = it
@@ -53,7 +61,8 @@ class UserHomeFragment : Fragment(R.layout.fragment_user_home) {
         }
         lifecycleScope.launch {
             viewModel.userDataStateFlow.collect {
-                binding.nameTv.text = "Hello ${it.firstName}"
+                user = it
+                binding.nameTv.append(it.firstName)
                 username = it.username
                 fullName = it.firstName + " " + it.lastName
                 Glide.with(binding.avatarIv)
@@ -81,7 +90,7 @@ class UserHomeFragment : Fragment(R.layout.fragment_user_home) {
 
         adapter.setOnCLickListener { doctor, imageView ->
 
-            if (doctor.available){
+            if (doctor.available) {
                 val extra = FragmentNavigatorExtras(imageView to "shared_element")
                 if (username.isBlank() && fullName.isBlank()) {
                     showToast("User data could not be loaded, please try again later")
@@ -95,14 +104,22 @@ class UserHomeFragment : Fragment(R.layout.fragment_user_home) {
                     extra
                 )
             } else {
-                showToast("The doctor is not available yet")
+                showToast(getString(R.string.doctor_not_available))
             }
 
 
         }
 
         binding.scannerFba.setOnClickListener {
-            parentFragment?.findNavController()?.navigate(R.id.action_scannerFragment_self)
+            if (user != null && ((user?.uid ?: "") != "")) {
+                findNavController().navigate(
+                    UserHomeFragmentDirections.actionUserHomeFragmentToUserDetailsFragment(
+                        user!!
+                    )
+                )
+            } else {
+                showToast(getString(R.string.user_details_not_found))
+            }
         }
 
 

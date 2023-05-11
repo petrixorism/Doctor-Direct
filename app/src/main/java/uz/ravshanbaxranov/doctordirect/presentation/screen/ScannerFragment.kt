@@ -16,11 +16,14 @@ import com.budiyev.android.codescanner.ErrorCallback
 import com.vmadalin.easypermissions.EasyPermissions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentScannerBinding
 import uz.ravshanbaxranov.doctordirect.other.Constants
-import uz.ravshanbaxranov.doctordirect.other.getId
+import uz.ravshanbaxranov.doctordirect.other.getIdForAppointment
+import uz.ravshanbaxranov.doctordirect.other.getIdForUser
 import uz.ravshanbaxranov.doctordirect.other.showToast
 import uz.ravshanbaxranov.doctordirect.presentation.viewmodel.ScannerViewModel
 
@@ -36,7 +39,7 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner) {
         if (!EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CAMERA)) {
             EasyPermissions.requestPermissions(
                 this,
-                "This application cannot work without permission",
+                getString(R.string.permission_info),
                 Constants.PERMISSION_CAMERA_REQUEST_CODE,
                 Manifest.permission.CAMERA
             )
@@ -53,14 +56,16 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner) {
         codeScanner.decodeCallback = DecodeCallback {
             lifecycleScope.launch(Dispatchers.Main) {
 
-                val appointmentId = it.text.getId()
-
-                if (appointmentId != null) {
-                    viewModel.getAppointment(appointmentId)
+                if (it.text.startsWith("Id")) {
+                    it.text.getIdForAppointment()
+                    viewModel.getAppointment(it.text.getIdForAppointment()?:"")
+                } else if (it.text.startsWith("uid")) {
+                    it.text.getIdForUser()
+                    viewModel.getUser( it.text.getIdForUser()?:"")
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "This is not Appointment QR",
+                        getString(R.string.not_qr_code),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -69,26 +74,45 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner) {
 
         }
 
-        lifecycleScope.launch {
-            viewModel.errorFlow.collect{
+        viewModel.errorFlow.onEach {
+            val msg = it.toIntOrNull()
+            if (msg == null) {
                 showToast(it)
+            } else {
+                showToast(getString(msg))
             }
-        }
+        }.launchIn(lifecycleScope)
 
         lifecycleScope.launch {
-            viewModel.loadingStateFlow.collect{
+            viewModel.loadingStateFlow.collect {
                 binding.loadingPb.isVisible = it
             }
         }
 
         lifecycleScope.launch {
-            viewModel.successFlow.collect{
-                findNavController().navigate(ScannerFragmentDirections.actionScannerFragmentToScannerResultFragment(it))
+            viewModel.appointmentFlow.collect {
+                findNavController().navigate(
+                    ScannerFragmentDirections.actionScannerFragmentToScannerResultFragment(
+                        it
+                    )
+                )
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.userFlow.collect {
+                findNavController().navigate(
+                    ScannerFragmentDirections.actionScannerFragmentToScannerResultForUserFragment(it)
+                )
             }
         }
 
         codeScanner.errorCallback = ErrorCallback {
-            Toast.makeText(requireContext(), "Camera initialization error: ${it.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                requireContext(),
+                "Camera initialization error: ${it.message}",
+                Toast.LENGTH_LONG
+            ).show()
         }
 
     }

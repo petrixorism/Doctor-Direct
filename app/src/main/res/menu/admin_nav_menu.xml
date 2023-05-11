@@ -4,22 +4,22 @@
     <item
         android:id="@+id/doctorsFragment"
         android:icon="@drawable/doctor"
-        android:title="Doctors" />
+        android:title="@string/doctors" />
     <item
         android:id="@+id/addDoctorFragment"
         android:icon="@drawable/add_doctor"
-        android:title="Add doctor" />
+        android:title="@string/add_doctor" />
 
 
     <item
         android:id="@+id/adminAppointmentsFragment"
         android:icon="@drawable/appoint"
-        android:title="Appointments" />
+        android:title="@string/appointments" />
 
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/profile"
-        android:title="Profile" />
+        android:title="@string/profile" />
 
 
 </menu>

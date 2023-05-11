@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginHorizontal="16dp"
     android:layout_marginTop="8dp"
     app:cardCornerRadius="12dp">
@@ -28,7 +29,7 @@
             android:layout_margin="16dp"
             android:alpha="0.5"
             android:fontFamily="@font/inter_semi_bold"
-            android:text="Appointment date"
+            android:text="@string/appointment_date"
             android:textColor="@color/grey"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,15 +38,15 @@
             android:id="@+id/date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/baseline_access_time_back"
             android:drawablePadding="4dp"
             android:fontFamily="@font/inter_semi_bold"
             android:gravity="center"
-            android:text="Wed June | 08:00"
+            tools:text="Wed June | 08:00"
             android:textColor="@color/grey"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/tv_date"
-            app:layout_constraintTop_toBottomOf="@id/tv_date" />
+            app:layout_constraintTop_toBottomOf="@id/tv_date"
+            app:drawableStartCompat="@drawable/baseline_access_time_back" />
 
         <View
             android:id="@+id/line"
@@ -63,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/inter_semi_bold"
-            android:text="John Doe"
+            tools:text="John Doe"
             android:textColor="@color/dark_blue"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +80,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/inter_semi_bold"
             android:maxLines="1"
-            android:text="Endokrnolog"
+            tools:text="Endokrnolog"
             android:textColor="@color/grey"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -92,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_bold"
-            android:text="Upcoming"
+            android:text="@string/upcoming"
             android:textColor="@color/orange"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@id/speciality_tv"

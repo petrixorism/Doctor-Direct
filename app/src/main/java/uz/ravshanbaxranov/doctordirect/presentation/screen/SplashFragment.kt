@@ -1,7 +1,9 @@
 package uz.ravshanbaxranov.doctordirect.presentation.screen
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,10 +14,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import uz.ravshanbaxranov.doctordirect.R
 import uz.ravshanbaxranov.doctordirect.databinding.FragmentSplashBinding
+import uz.ravshanbaxranov.doctordirect.other.showLog
 import uz.ravshanbaxranov.doctordirect.other.showToast
 import uz.ravshanbaxranov.mytaxi.presentation.viewmodel.SplashViewModel
 
@@ -70,11 +75,14 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
                 findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToOnboardParentFragment())
             }
         }
-        lifecycleScope.launch {
-            viewModel.errorFlow.collect {
+        viewModel.errorFlow.onEach {
+            val msg = it.toIntOrNull()
+            if (msg==null){
                 showToast(it)
+            } else{
+                showToast(getString(msg))
             }
-        }
+        }.launchIn(lifecycleScope)
 
         lifecycleScope.launch {
             viewModel.loadingStateFlow.collect {
